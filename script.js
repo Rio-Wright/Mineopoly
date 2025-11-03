@@ -42,12 +42,15 @@
   }
 
   // DOM
-  var rowsEl  = document.getElementById("rows");
-  var tpl     = document.getElementById("row-template");
+  var rowsEl    = document.getElementById("rows");
+  var tpl       = document.getElementById("row-template");
+  var toolbar   = document.querySelector(".toolbar");
   var addBtn      = document.getElementById("addRow");
   var setDefaultsBtn = document.getElementById("setDefaults");
   var resetBtn    = document.getElementById("reset");
   var copyBtn     = document.getElementById("copy");
+  // container for additional copy buttons (created dynamically)
+  var dynamicCopyButtons = [];
 
   // State
   var rows = load();
@@ -223,13 +226,86 @@
     render();
   });
 
+  // copy button(s) behavior: chunked by 16 rows per command
   copyBtn.addEventListener("click", function(){
     if (copyBtn.disabled) return;
-    var cmd = buildShulker(rows);
+    var slice = rows.slice(0, 16);
+    var cmd = buildShulker(slice);
     navigator.clipboard.writeText(cmd).then(function(){}, function(){});
     copyBtn.classList.add("copied");
     setTimeout(function(){ copyBtn.classList.remove("copied"); }, 900);
   });
+
+  function chunkReady(chunkIndex){
+    var start = chunkIndex * 16;
+    var end = Math.min(rows.length, start + 16);
+    if (start>=end) return false;
+    for (var i=start;i<end;i++){
+      var r = rows[i];
+      if (!r.name || !r.name.trim()) return false;
+      for (var k in r.vals){ if (!String(r.vals[k]||"").trim()) return false; }
+    }
+    return true;
+  }
+
+  function renderCopyButtons(){
+    // number of chunks
+    var chunks = Math.ceil(rows.length/16) || 1;
+
+    // ensure dynamicCopyButtons array length equals chunks-1 (we keep primary copyBtn as chunk 1)
+    // remove extra buttons if any
+    for (var i = dynamicCopyButtons.length - 1; i >= 0; i--) {
+      var btn = dynamicCopyButtons[i];
+      var idx = i+2; // button corresponds to chunk idx
+      if (idx > chunks) {
+        btn.parentNode.removeChild(btn);
+        dynamicCopyButtons.splice(i,1);
+      }
+    }
+
+    // update primary copyBtn (chunk 1)
+    var ready0 = chunkReady(0);
+    copyBtn.disabled = !ready0;
+    if (ready0) copyBtn.classList.add('ready'); else copyBtn.classList.remove('ready');
+    // relabel
+    var span = copyBtn.querySelector('span');
+    if (span) span.textContent = 'Copy Command 1';
+
+    // create or update remaining chunk buttons
+    for (var ci=1; ci<chunks; ci++){
+      (function(chunkIndex){
+        var id = 'copy-'+(chunkIndex+1);
+        var existing = document.getElementById(id);
+        if (!existing){
+          var b = document.createElement('button');
+          b.id = id;
+          b.className = 'btn copy chunk';
+          b.textContent = 'Copy Command ' + (chunkIndex+1);
+          // insert after the last copy-related button
+          toolbar.appendChild(b);
+          dynamicCopyButtons.push(b);
+          b.addEventListener('click', function(){
+            if (b.disabled) return;
+            var start = chunkIndex*16;
+            var slice = rows.slice(start, start+16);
+            var cmd = buildShulker(slice);
+            navigator.clipboard.writeText(cmd).then(function(){}, function(){});
+            b.classList.add('copied');
+            setTimeout(function(){ b.classList.remove('copied'); }, 900);
+          });
+        }
+      })(ci);
+    }
+
+    // update state for existing dynamic buttons
+    for (var j=0;j<dynamicCopyButtons.length;j++){
+      var btn = dynamicCopyButtons[j];
+      var idx = j+1; // dynamic index maps to chunkIndex = idx
+      var ready = chunkReady(idx);
+      btn.disabled = !ready;
+      if (ready) btn.classList.add('ready'); else btn.classList.remove('ready');
+    }
+  }
 
   // Helpers
   function allFilled(){
@@ -244,9 +320,7 @@
     return true;
   }
   function updateCopyState(){
-    var ready = allFilled();
-    copyBtn.disabled = !ready;
-    if (ready) copyBtn.classList.add("ready"); else copyBtn.classList.remove("ready");
+    renderCopyButtons();
     updateDefaultsButtonState();
   }
 
