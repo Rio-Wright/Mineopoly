@@ -49,10 +49,9 @@
   var setDefaultsBtn = document.getElementById("setDefaults");
   var resetBtn    = document.getElementById("reset");
   var copyBtn     = document.getElementById("copy");
-  var versionSelect = document.getElementById('versionSelect');
   // container for additional copy buttons (created dynamically)
   var dynamicCopyButtons = [];
-  var LS_VERSION_KEY = 'monopoly_cmd_version_v1';
+  
 
   // State
   var rows = load();
@@ -207,27 +206,7 @@
     render();
   });
 
-  // initialize version select from storage
-  function loadVersion(){
-    try{
-      var v = localStorage.getItem(LS_VERSION_KEY) || 'new';
-      if (versionSelect) versionSelect.value = v;
-      return v;
-    }catch(e){
-      return 'new';
-    }
-  }
-  function saveVersion(v){
-    try{ localStorage.setItem(LS_VERSION_KEY, v); }catch(e){}
-  }
-  var currentVersion = loadVersion();
-  if (versionSelect){
-    versionSelect.addEventListener('change', function(e){
-      currentVersion = String(e.target.value||'new');
-      saveVersion(currentVersion);
-      updateCopyState();
-    });
-  }
+  // Version selector removed; always use newest syntax when not explicitly passing 'legacy'
 
   setDefaultsBtn.addEventListener("click", function(){
     loadDefaults().then(function(defaults) {
@@ -254,7 +233,7 @@
   copyBtn.addEventListener("click", function(){
     if (copyBtn.disabled) return;
     var slice = rows.slice(0, 16);
-    var cmd = buildShulker(slice, currentVersion);
+    var cmd = buildShulker(slice);
     navigator.clipboard.writeText(cmd).then(function(){}, function(){});
     copyBtn.classList.add("copied");
     setTimeout(function(){ copyBtn.classList.remove("copied"); }, 900);
@@ -312,7 +291,7 @@
             if (b.disabled) return;
             var start = chunkIndex*16;
             var slice = rows.slice(start, start+16);
-            var cmd = buildShulker(slice, currentVersion);
+            var cmd = buildShulker(slice);
             navigator.clipboard.writeText(cmd).then(function(){}, function(){});
             b.classList.add('copied');
             setTimeout(function(){ b.classList.remove('copied'); }, 900);
@@ -387,19 +366,31 @@
     var customName = '["",{"text":"'+r.name+'","bold":true,"italic":false,"color":"'+r.titleColor+'"}]';
     
     if (version === 'legacy') {
-      // Legacy syntax (1.21.4 and earlier) - direct properties, Count uppercase
-      return '{id:"minecraft:paper",Count:1,tag:{display:{Name:'+customName+',Lore:['+lore.join(",")+']}}}'
+      // Legacy syntax (<=1.21.4): produce NBT suitable for BlockEntityTag.Items entries
+      // Name must be a JSON string and each Lore entry must be a JSON string in the list.
+      var nameComponent = JSON.stringify(["", { text: r.name, bold: true, italic: false, color: r.titleColor }]);
+      // Escape backslashes and double quotes so the JSON string can live inside an NBT string literal
+      var escapedName = nameComponent.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+      var loreStrings = lore.map(function(x){
+        var esc = x.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+        return '"' + esc + '"';
+      }).join(',');
+      // Return inner NBT (no outer braces) so callers can prepend Slot:.. when building Items
+      return 'id:"minecraft:paper",Count:1b,tag:{display:{Name:"' + escapedName + '",Lore:['+loreStrings+']}}';
     }
     // New syntax (1.21.5+) - uses components wrapper
     return '{id:paper,count:1,components:{custom_name:'+customName+',lore:['+lore.join(",")+']}}';
   }
 
   function buildShulker(rowsArr, version){
-    version = version || currentVersion || 'new';
+    version = version || 'new';
     var slots = rowsArr.map(function(r,i){ return '{slot:'+i+',item:'+buildItem(r, version)+'}'; }).join(",");
     if (version === 'legacy') {
-      // legacy syntax (1.20.5 - 1.21.4): use @a and no trailing count
-      return '/give @a shulker_box[container=[' + slots + ']]';
+      // legacy syntax (<=1.21.4): construct BlockEntityTag.Items list
+      var items = rowsArr.map(function(r,i){ return '{Slot:'+i+'b,'+buildItem(r,'legacy')+'}'; }).join(',');
+      // Legacy /give syntax: /give <targets> <item> <count> <nbt>
+      // Place the count before the NBT and use the namespaced item id to be explicit.
+      return '/give @a minecraft:shulker_box 1 {BlockEntityTag:{Items:[' + items + ']}}';
     }
     // default/new syntax (1.21.5+)
     return '/give @p shulker_box[container=[' + slots + ']] 1';
@@ -407,4 +398,11 @@
 
   // boot
   render();
+  // Quick debug output when URL contains ?dbg - prints both syntaxes for the current rows
+  if (typeof window !== 'undefined' && window.location && window.location.search.indexOf('dbg') > -1) {
+    try{
+      console.log('DEBUG (new syntax):', buildShulker(rows.slice(0,16), 'new'));
+      console.log('DEBUG (legacy syntax):', buildShulker(rows.slice(0,16), 'legacy'));
+    }catch(e){ console.error('Debug build error', e); }
+  }
 })();
