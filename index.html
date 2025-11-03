@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Mineopoly Deed Generator</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <main class="wrap">
+    <div id="rows"></div>
+
+    <div class="toolbar">
+      <button id="addRow" class="btn">+ Row</button>
+      <button id="setDefaults" class="btn">Set Defaults</button>
+      <button id="reset" class="btn">Reset</button>
+      <button id="copy" class="btn copy" disabled>
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M16 1H4c-1.1 0-2 .9-2 2v12h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+        <span>Copy Command</span>
+      </button>
+    </div>
+  </main>
+
+  <template id="row-template">
+    <div class="row">
+      <div class="field name">
+        <label>Name</label>
+        <input type="text" class="nameInput" placeholder="Property" inputmode="text"/>
+      </div>
+
+      <div class="field color">
+        <label>Title color</label>
+        <div class="colorpack">
+          <input type="color" class="colorPicker" value="#FFFF00"/>
+          <input type="text" class="colorHex" value="#FFFF00" maxlength="7"/>
+        </div>
+      </div>
+
+      <div class="field num"><label>Price</label><input type="number" class="n price" min="0" step="1" value=""/></div>
+      <div class="field num"><label>Rent</label><input type="number" class="n rent" min="0" step="1" value=""/></div>
+      <div class="field num"><label>Rent (full set)</label><input type="number" class="n rentFull" min="0" step="1" value=""/></div>
+
+      <div class="field num"><label>Rent ⌂</label><input type="number" class="n rent1" min="0" step="1" value=""/></div>
+      <div class="field num"><label>Rent ⌂⌂</label><input type="number" class="n rent2" min="0" step="1" value=""/></div>
+      <div class="field num"><label>Rent ⌂⌂⌂</label><input type="number" class="n rent3" min="0" step="1" value=""/></div>
+      <div class="field num"><label>Rent ⌂⌂⌂⌂</label><input type="number" class="n rent4" min="0" step="1" value=""/></div>
+      <div class="field num"><label>Rent Hotel</label><input type="number" class="n rentHotel" min="0" step="1" value=""/></div>
+
+      <div class="field num"><label>⌂ Cost</label><input type="number" class="n houseHotelCost" min="0" step="1" value=""/></div>
+      <div class="field num"><label>Mortgage</label><input type="number" class="n mortgage" min="0" step="1" value=""/></div>
+
+      <button class="btn ghost remove">Remove</button>
+    </div>
+  </template>
+
+  <script src="script.js"></script>
+</body>
+</html>

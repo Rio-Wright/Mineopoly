@@ -1,0 +1,356 @@
+{
+  "properties": [
+    {
+      "name": "snail stump",
+      "titleColor": "#955436",
+      "vals": {
+        "price": "60",
+        "rent": "2",
+        "rentFull": "4",
+        "rent1": "10",
+        "rent2": "30",
+        "rent3": "90",
+        "rent4": "160",
+        "rentHotel": "250",
+        "houseHotelCost": "50",
+        "mortgage": "30"
+      }
+    },
+    {
+      "name": "piglin patch",
+      "titleColor": "#955436",
+      "vals": {
+        "price": "60",
+        "rent": "4",
+        "rentFull": "8",
+        "rent1": "20",
+        "rent2": "60",
+        "rent3": "180",
+        "rent4": "320",
+        "rentHotel": "450",
+        "houseHotelCost": "50",
+        "mortgage": "30"
+      }
+    },
+    {
+      "name": "polar drift",
+      "titleColor": "#AAE9E6",
+      "vals": {
+        "price": "100",
+        "rent": "6",
+        "rentFull": "12",
+        "rent1": "30",
+        "rent2": "90",
+        "rent3": "270",
+        "rent4": "400",
+        "rentHotel": "550",
+        "houseHotelCost": "50",
+        "mortgage": "50"
+      }
+    },
+    {
+      "name": "seal sickle",
+      "titleColor": "#AAE9E6",
+      "vals": {
+        "price": "100",
+        "rent": "6",
+        "rentFull": "12",
+        "rent1": "30",
+        "rent2": "90",
+        "rent3": "270",
+        "rent4": "400",
+        "rentHotel": "550",
+        "houseHotelCost": "50",
+        "mortgage": "50"
+      }
+    },
+    {
+      "name": "penguin pillars",
+      "titleColor": "#AAE9E6",
+      "vals": {
+        "price": "120",
+        "rent": "8",
+        "rentFull": "16",
+        "rent1": "40",
+        "rent2": "100",
+        "rent3": "300",
+        "rent4": "450",
+        "rentHotel": "600",
+        "houseHotelCost": "50",
+        "mortgage": "60"
+      }
+    },
+    {
+      "name": "beezy meadow",
+      "titleColor": "#D93A96",
+      "vals": {
+        "price": "140",
+        "rent": "10",
+        "rentFull": "20",
+        "rent1": "50",
+        "rent2": "150",
+        "rent3": "450",
+        "rent4": "625",
+        "rentHotel": "750",
+        "houseHotelCost": "100",
+        "mortgage": "70"
+      }
+    },
+    {
+      "name": "floral flamingo",
+      "titleColor": "#D93A96",
+      "vals": {
+        "price": "140",
+        "rent": "10",
+        "rentFull": "20",
+        "rent1": "50",
+        "rent2": "150",
+        "rent3": "450",
+        "rent4": "625",
+        "rentHotel": "750",
+        "houseHotelCost": "100",
+        "mortgage": "70"
+      }
+    },
+    {
+      "name": "squire grove",
+      "titleColor": "#D93A96",
+      "vals": {
+        "price": "160",
+        "rent": "12",
+        "rentFull": "24",
+        "rent1": "60",
+        "rent2": "180",
+        "rent3": "500",
+        "rent4": "700",
+        "rentHotel": "900",
+        "houseHotelCost": "100",
+        "mortgage": "80"
+      }
+    },
+    {
+      "name": "gold shark",
+      "titleColor": "#F7941D",
+      "vals": {
+        "price": "180",
+        "rent": "14",
+        "rentFull": "28",
+        "rent1": "70",
+        "rent2": "200",
+        "rent3": "550",
+        "rent4": "750",
+        "rentHotel": "950",
+        "houseHotelCost": "100",
+        "mortgage": "90"
+      }
+    },
+    {
+      "name": "ostricth outlands",
+      "titleColor": "#F7941D",
+      "vals": {
+        "price": "180",
+        "rent": "14",
+        "rentFull": "28",
+        "rent1": "70",
+        "rent2": "200",
+        "rent3": "550",
+        "rent4": "750",
+        "rentHotel": "950",
+        "houseHotelCost": "100",
+        "mortgage": "90"
+      }
+    },
+    {
+      "name": "armadillo acres",
+      "titleColor": "#F7941D",
+      "vals": {
+        "price": "200",
+        "rent": "16",
+        "rentFull": "32",
+        "rent1": "80",
+        "rent2": "220",
+        "rent3": "600",
+        "rent4": "800",
+        "rentHotel": "1000",
+        "houseHotelCost": "100",
+        "mortgage": "100"
+      }
+    },
+    {
+      "name": "piglin parade",
+      "titleColor": "#ED1B24",
+      "vals": {
+        "price": "220",
+        "rent": "18",
+        "rentFull": "36",
+        "rent1": "90",
+        "rent2": "250",
+        "rent3": "700",
+        "rent4": "875",
+        "rentHotel": "1050",
+        "houseHotelCost": "150",
+        "mortgage": "110"
+      }
+    },
+    {
+      "name": "hoglin hell",
+      "titleColor": "#ED1B24",
+      "vals": {
+        "price": "220",
+        "rent": "18",
+        "rentFull": "36",
+        "rent1": "90",
+        "rent2": "250",
+        "rent3": "700",
+        "rent4": "875",
+        "rentHotel": "1050",
+        "houseHotelCost": "150",
+        "mortgage": "110"
+      }
+    },
+    {
+      "name": "withering warts",
+      "titleColor": "#ED1B24",
+      "vals": {
+        "price": "240",
+        "rent": "20",
+        "rentFull": "40",
+        "rent1": "100",
+        "rent2": "300",
+        "rent3": "750",
+        "rent4": "925",
+        "rentHotel": "1100",
+        "houseHotelCost": "150",
+        "mortgage": "120"
+      }
+    },
+    {
+      "name": "snake pit",
+      "titleColor": "#FEF200",
+      "vals": {
+        "price": "260",
+        "rent": "22",
+        "rentFull": "44",
+        "rent1": "110",
+        "rent2": "330",
+        "rent3": "800",
+        "rent4": "975",
+        "rentHotel": "1150",
+        "houseHotelCost": "150",
+        "mortgage": "130"
+      }
+    },
+    {
+      "name": "camel catacomb",
+      "titleColor": "#FEF200",
+      "vals": {
+        "price": "260",
+        "rent": "22",
+        "rentFull": "44",
+        "rent1": "110",
+        "rent2": "330",
+        "rent3": "800",
+        "rent4": "975",
+        "rentHotel": "1150",
+        "houseHotelCost": "150",
+        "mortgage": "130"
+      }
+    },
+    {
+      "name": "kitty city",
+      "titleColor": "#FEF200",
+      "vals": {
+        "price": "280",
+        "rent": "24",
+        "rentFull": "48",
+        "rent1": "120",
+        "rent2": "360",
+        "rent3": "850",
+        "rent4": "1025",
+        "rentHotel": "1200",
+        "houseHotelCost": "150",
+        "mortgage": "140"
+      }
+    },
+    {
+      "name": "parrot paradise",
+      "titleColor": "#1FB25A",
+      "vals": {
+        "price": "300",
+        "rent": "26",
+        "rentFull": "52",
+        "rent1": "130",
+        "rent2": "390",
+        "rent3": "900",
+        "rent4": "1100",
+        "rentHotel": "1275",
+        "houseHotelCost": "200",
+        "mortgage": "150"
+      }
+    },
+    {
+      "name": "forbidden frogs",
+      "titleColor": "#1FB25A",
+      "vals": {
+        "price": "300",
+        "rent": "26",
+        "rentFull": "52",
+        "rent1": "130",
+        "rent2": "390",
+        "rent3": "900",
+        "rent4": "1100",
+        "rentHotel": "1275",
+        "houseHotelCost": "200",
+        "mortgage": "150"
+      }
+    },
+    {
+      "name": "panda pasture",
+      "titleColor": "#1FB25A",
+      "vals": {
+        "price": "320",
+        "rent": "28",
+        "rentFull": "56",
+        "rent1": "150",
+        "rent2": "450",
+        "rent3": "1000",
+        "rent4": "1200",
+        "rentHotel": "1400",
+        "houseHotelCost": "200",
+        "mortgage": "160"
+      }
+    },
+    {
+      "name": "crab cove",
+      "titleColor": "#0072BB",
+      "vals": {
+        "price": "350",
+        "rent": "35",
+        "rentFull": "70",
+        "rent1": "175",
+        "rent2": "500",
+        "rent3": "1100",
+        "rent4": "1300",
+        "rentHotel": "1500",
+        "houseHotelCost": "200",
+        "mortgage": "175"
+      }
+    },
+    {
+      "name": "nautilus reef",
+      "titleColor": "#0072BB",
+      "vals": {
+        "price": "400",
+        "rent": "50",
+        "rentFull": "100",
+        "rent1": "200",
+        "rent2": "600",
+        "rent3": "1400",
+        "rent4": "1700",
+        "rentHotel": "2000",
+        "houseHotelCost": "200",
+        "mortgage": "200"
+      }
+    }
+  ]
+}
