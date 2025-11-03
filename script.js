@@ -49,8 +49,10 @@
   var setDefaultsBtn = document.getElementById("setDefaults");
   var resetBtn    = document.getElementById("reset");
   var copyBtn     = document.getElementById("copy");
+  var versionSelect = document.getElementById('versionSelect');
   // container for additional copy buttons (created dynamically)
   var dynamicCopyButtons = [];
+  var LS_VERSION_KEY = 'monopoly_cmd_version_v1';
 
   // State
   var rows = load();
@@ -205,6 +207,28 @@
     render();
   });
 
+  // initialize version select from storage
+  function loadVersion(){
+    try{
+      var v = localStorage.getItem(LS_VERSION_KEY) || 'new';
+      if (versionSelect) versionSelect.value = v;
+      return v;
+    }catch(e){
+      return 'new';
+    }
+  }
+  function saveVersion(v){
+    try{ localStorage.setItem(LS_VERSION_KEY, v); }catch(e){}
+  }
+  var currentVersion = loadVersion();
+  if (versionSelect){
+    versionSelect.addEventListener('change', function(e){
+      currentVersion = String(e.target.value||'new');
+      saveVersion(currentVersion);
+      updateCopyState();
+    });
+  }
+
   setDefaultsBtn.addEventListener("click", function(){
     loadDefaults().then(function(defaults) {
       if (!defaults) return;
@@ -230,7 +254,7 @@
   copyBtn.addEventListener("click", function(){
     if (copyBtn.disabled) return;
     var slice = rows.slice(0, 16);
-    var cmd = buildShulker(slice);
+    var cmd = buildShulker(slice, currentVersion);
     navigator.clipboard.writeText(cmd).then(function(){}, function(){});
     copyBtn.classList.add("copied");
     setTimeout(function(){ copyBtn.classList.remove("copied"); }, 900);
@@ -288,7 +312,7 @@
             if (b.disabled) return;
             var start = chunkIndex*16;
             var slice = rows.slice(start, start+16);
-            var cmd = buildShulker(slice);
+            var cmd = buildShulker(slice, currentVersion);
             navigator.clipboard.writeText(cmd).then(function(){}, function(){});
             b.classList.add('copied');
             setTimeout(function(){ b.classList.remove('copied'); }, 900);
@@ -364,8 +388,14 @@
     return '{id:paper,count:1,components:{custom_name:'+customName+',lore:['+lore.join(",")+']}}';
   }
 
-  function buildShulker(rowsArr){
+  function buildShulker(rowsArr, version){
+    version = version || currentVersion || 'new';
     var slots = rowsArr.map(function(r,i){ return '{slot:'+i+',item:'+buildItem(r)+'}'; }).join(",");
+    if (version === 'legacy') {
+      // legacy syntax (1.20.5 - 1.21.4): use @a and no trailing count
+      return '/give @a shulker_box[container=[' + slots + ']]';
+    }
+    // default/new syntax (1.21.5+)
     return '/give @p shulker_box[container=[' + slots + ']] 1';
   }
 
