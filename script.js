@@ -366,7 +366,7 @@
   }
 
   // Command builder
-  function buildItem(r){
+  function buildItem(r, version){
     var F = fmt;
     var lore = [
       '["",{"text":"-= ","italic":false,"color":"white"},{"text":"'+F(r.vals.price)+'","italic":false,"color":"gold"},{"text":" =-","italic":false,"color":"white"}]',
@@ -385,12 +385,18 @@
       '["",{"text":"Unmortgage Cost: ","italic":false,"color":"white"},{"text":"'+fmt(Math.round(Number(r.vals.mortgage||0)*1.1))+'","italic":false,"color":"gold"}]'
     ];
     var customName = '["",{"text":"'+r.name+'","bold":true,"italic":false,"color":"'+r.titleColor+'"}]';
+    
+    if (version === 'legacy') {
+      // Legacy syntax (1.21.4 and earlier) - direct properties, Count uppercase
+      return '{id:"minecraft:paper",Count:1,tag:{display:{Name:'+customName+',Lore:['+lore.join(",")+']}}}'
+    }
+    // New syntax (1.21.5+) - uses components wrapper
     return '{id:paper,count:1,components:{custom_name:'+customName+',lore:['+lore.join(",")+']}}';
   }
 
   function buildShulker(rowsArr, version){
     version = version || currentVersion || 'new';
-    var slots = rowsArr.map(function(r,i){ return '{slot:'+i+',item:'+buildItem(r)+'}'; }).join(",");
+    var slots = rowsArr.map(function(r,i){ return '{slot:'+i+',item:'+buildItem(r, version)+'}'; }).join(",");
     if (version === 'legacy') {
       // legacy syntax (1.20.5 - 1.21.4): use @a and no trailing count
       return '/give @a shulker_box[container=[' + slots + ']]';
